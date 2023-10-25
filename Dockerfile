@@ -1,4 +1,4 @@
-FROM rockylinux:8.8.20230518
+FROM rockylinux:8.6
 
 COPY shim-unsigned-x64-15.7-1.el8.src.rpm shimia32.efi shimx64.efi /
 RUN dnf install dnf-plugins-core rpm-build -y; \

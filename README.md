@@ -87,7 +87,9 @@ https://github.com/rhboot/shim/releases/download/15.7/shim-15.7.tar.bz2
 ### What patches are being applied and why:
 *******************************************************************************
 [Enable the NX Compatibility flag by default](https://github.com/rhboot/shim/commit/7c7642530fab73facaf3eac233cfbce29e10b0ef)  
-[Microsoft](https://github.com/rhboot/shim-review/issues/307) requires to enable NX support, so we patched our shim 15.7 to enable NX compatibility flag.
+[Make sbat_var.S parse right with buggy gcc/binutils](https://github.com/rhboot/shim/pull/535/commits/4eaf28827e99e930aad742eadd79a716fe323bf3)  
+[Microsoft](https://github.com/rhboot/shim-review/issues/307) requires to enable NX support, so we patched our shim 15.7 to enable NX compatibility flag.  
+And we patched shim for binutils bug that fixes incorrect `.sbatlevel` section.
 
 *******************************************************************************
 ### If shim is loading GRUB2 bootloader what exact implementation of Secureboot in GRUB2 do you have? (Either Upstream GRUB2 shim_lock verifier or Downstream RHEL/Fedora/Debian/Canonical-like implementation)
@@ -143,7 +145,8 @@ This is our first shim submission, so we only allow grub2 bootloader that does n
 ### Is upstream commit [75b0cea7bf307f362057cc778efe89af4c615354 "ACPI: configfs: Disallow loading ACPI tables when locked down"](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=75b0cea7bf307f362057cc778efe89af4c615354) applied?
 ### Is upstream commit [eadb2f47a3ced5c64b23b90fd2a3463f63726066 "lockdown: also lock down previous kgdb use"](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eadb2f47a3ced5c64b23b90fd2a3463f63726066) applied?
 *******************************************************************************
-Yes.
+Redhat's kernel already disables kgdb/kdb so we do not need to apply "lockdown: also lock down previous kgdb use" patch.  
+Our kernel is based on RHEL and patches are identical until we release our custom kernel.
 
 *******************************************************************************
 ### Do you build your signed kernel with additional local patches? What do they do?
@@ -183,8 +186,8 @@ This is our first shim submission.
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
 ```
-8cc03bb7e1353af6ffb3f1e3900999e2308d31ee7fe7e724e37ba9ff77886c0d  shimx64.efi
-0a3af8dd6d34601206d2de1b88a3a8d328dd64a756d9a7b0293262422d6524e7  shimia32.efi
+dc5056c74e44aad36944d7f18c3b9c57900e104a727bf7b7f6aac52315352522  shimx64.efi
+ab8407a1bb040c5f78459811415350daf4b4462e19349aa2c91f3cfe2c6cd8ac  shimia32.efi
 ```
 
 *******************************************************************************
@@ -214,7 +217,7 @@ shim.navix,1,Navix,shim,15.7,dl_le@navercorp.com
 grub2
 ```
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md  
-grub,3,Free Software Foundation,grub,@@VERSION@@,https//www.gnu.org/software/grub/  
+grub,3,Free Software Foundation,grub,2.02,https//www.gnu.org/software/grub/  
 grub.rh,2,Red Hat,grub2,2.02-148.el8,mailto:secalert@redhat.com  
 grub.navix,1,Navix,grub2,2.02-148.el8,mailto:dl_le@navercorp.com  
 ```
@@ -279,3 +282,4 @@ We are using downstream kernel from RHEL and all our kernel has certificate and 
 ### Add any additional information you think we may need to validate this shim.
 *******************************************************************************
 N/A
+
