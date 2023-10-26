@@ -186,8 +186,8 @@ This is our first shim submission.
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
 ```
-dc5056c74e44aad36944d7f18c3b9c57900e104a727bf7b7f6aac52315352522  shimx64.efi
-ab8407a1bb040c5f78459811415350daf4b4462e19349aa2c91f3cfe2c6cd8ac  shimia32.efi
+390a849f60b61591e72e44cc26a0f8194c78e2dc8e094d1da7fe1f4f49991446  shimia32.efi
+367196b6c335fb25e0312cf8717875decf3460436475a15741b7e46364eb6ac6  shimx64.efi
 ```
 
 *******************************************************************************
