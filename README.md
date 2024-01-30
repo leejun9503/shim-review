@@ -15,6 +15,9 @@ Note that we really only have experience with using GRUB2 on Linux, so asking
 us to endorse anything else for signing is going to require some convincing on
 your part.
 
+Check the docs directory in this repo for guidance on submission and
+getting your shim signed.
+
 Here's the template:
 
 *******************************************************************************
@@ -69,9 +72,9 @@ well known in the Linux community.)
 
 *******************************************************************************
 ### Were these binaries created from the 15.7 shim release tar?
-Please create your shim binaries starting with the 15.7 shim release tar file: https://github.com/rhboot/shim/releases/download/15.7/shim-15.7.tar.bz2
+Please create your shim binaries starting with the 15.7 shim release tar file: https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
 
-This matches https://github.com/rhboot/shim/releases/tag/15.7 and contains the appropriate gnu-efi source.
+This matches https://github.com/rhboot/shim/releases/tag/15.8 and contains the appropriate gnu-efi source.
 
 *******************************************************************************
 Yes.
@@ -79,17 +82,13 @@ Yes.
 *******************************************************************************
 ### URL for a repo that contains the exact code which was built to get this binary:
 *******************************************************************************
-
-`shim-unsigned-x64-15.7-1.el8.src.rpm` includes the release tarball.
-https://github.com/rhboot/shim/releases/download/15.7/shim-15.7.tar.bz2
+`shim-unsigned-x64-15.8-1.el8.src.rpm` includes the shim release tarball.
+https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
 
 *******************************************************************************
 ### What patches are being applied and why:
 *******************************************************************************
-[Enable the NX Compatibility flag by default](https://github.com/rhboot/shim/commit/7c7642530fab73facaf3eac233cfbce29e10b0ef)  
-[Make sbat_var.S parse right with buggy gcc/binutils](https://github.com/rhboot/shim/pull/535/commits/4eaf28827e99e930aad742eadd79a716fe323bf3)  
-[Microsoft](https://github.com/rhboot/shim-review/issues/307) requires to enable NX support, so we patched our shim 15.7 to enable NX compatibility flag.  
-And we patched shim for binutils bug that fixes incorrect `.sbatlevel` section.
+No patches were applied.
 
 *******************************************************************************
 ### If shim is loading GRUB2 bootloader what exact implementation of Secureboot in GRUB2 do you have? (Either Upstream GRUB2 shim_lock verifier or Downstream RHEL/Fedora/Debian/Canonical-like implementation)
@@ -97,47 +96,62 @@ And we patched shim for binutils bug that fixes incorrect `.sbatlevel` section.
 RHEL-like implementation.
 
 *******************************************************************************
-### If shim is loading GRUB2 bootloader and your previously released shim booted a version of grub affected by any of the CVEs in the July 2020 grub2 CVE list, the March 2021 grub2 CVE list, the June 7th 2022 grub2 CVE list, or the November 15th 2022 list, have fixes for all these CVEs been applied?
+### If shim is loading GRUB2 bootloader and your previously released shim booted a version of GRUB2 affected by any of the CVEs in the July 2020, the March 2021, the June 7th 2022, the November 15th 2022, or 3rd of October 2023 GRUB2 CVE list, have fixes for all these CVEs been applied?
 
-* CVE-2020-14372
-* CVE-2020-25632
-* CVE-2020-25647
-* CVE-2020-27749
-* CVE-2020-27779
-* CVE-2021-20225
-* CVE-2021-20233
-* CVE-2020-10713
-* CVE-2020-14308
-* CVE-2020-14309
-* CVE-2020-14310
-* CVE-2020-14311
-* CVE-2020-15705
-* CVE-2021-3418 (if you are shipping the shim_lock module)
-
-* CVE-2021-3695
-* CVE-2021-3696
-* CVE-2021-3697
-* CVE-2022-28733
-* CVE-2022-28734
-* CVE-2022-28735
-* CVE-2022-28736
-* CVE-2022-28737
-
-* CVE-2022-2601
-* CVE-2022-3775
+* 2020 July - BootHole
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2020-07/msg00034.html
+  * CVE-2020-10713
+  * CVE-2020-14308
+  * CVE-2020-14309
+  * CVE-2020-14310
+  * CVE-2020-14311
+  * CVE-2020-15705
+  * CVE-2020-15706
+  * CVE-2020-15707
+* March 2021
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
+  * CVE-2020-14372
+  * CVE-2020-25632
+  * CVE-2020-25647
+  * CVE-2020-27749
+  * CVE-2020-27779
+  * CVE-2021-3418 (if you are shipping the shim_lock module)
+  * CVE-2021-20225
+  * CVE-2021-20233
+* June 2022
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2022-06/msg00035.html, SBAT increase to 2
+  * CVE-2021-3695
+  * CVE-2021-3696
+  * CVE-2021-3697
+  * CVE-2022-28733
+  * CVE-2022-28734
+  * CVE-2022-28735
+  * CVE-2022-28736
+  * CVE-2022-28737
+* November 2022
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2022-11/msg00059.html, SBAT increase to 3
+  * CVE-2022-2601
+  * CVE-2022-3775
+* October 2023 - NTFS vulnerabilities
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2023-10/msg00028.html, SBAT increase to 4
+  * CVE-2023-4693
+  * CVE-2023-4692
 *******************************************************************************
-This is our first shim submission, so we only allow grub2 bootloader that does not affected by those CVEs.
+We did not patch the CVE-2023-4692/4693, but we have no plans to load `ntfs` module on our grub2 efi environment unless upstream loads it.  
+Although `ntfs` module is compiled, Secure Boot environment prevents loading module except we described on **"Which modules are built into your signed grub image?"** section which are embedded on grub2 efi.  
 
 *******************************************************************************
-### If these fixes have been applied, have you set the global SBAT generation on your GRUB binary to 3?
+### If these fixes have been applied, is the upstream global SBAT generation in your GRUB2 binary set to 4?
+The entry should look similar to: `grub,4,Free Software Foundation,grub,GRUB_UPSTREAM_VERSION,https://www.gnu.org/software/grub/`
 *******************************************************************************
-Yes. 
+No. Our current grub2's SBAT generation is 3.  
 
 *******************************************************************************
 ### Were old shims hashes provided to Microsoft for verification and to be added to future DBX updates?
 ### Does your new chain of trust disallow booting old GRUB2 builds affected by the CVEs?
 *******************************************************************************
-This is our first shim submission, so we only allow grub2 bootloader that does not affected by those CVEs.
+This is our first shim submission, so we only sign and load our grub2 bootloader and other boot related stuff.  
+Although our grub2 did not patch NTFS vulnerability described above, it is not affected because we did not embedded `ntfs` module on grub2 efi.
 
 *******************************************************************************
 ### If your boot chain of trust includes a Linux kernel:
@@ -152,6 +166,12 @@ Our kernel is based on RHEL and patches are identical until we release our custo
 ### Do you build your signed kernel with additional local patches? What do they do?
 *******************************************************************************
 No. Kernel source is identical to RHEL.
+
+*******************************************************************************
+### Do you use an ephemeral key for signing kernel modules?
+### If not, please describe how you ensure that one kernel build does not load modules built for another kernel.
+*******************************************************************************
+Temporary ephemeral key is generated and used at module signing during kernel build process.
 
 *******************************************************************************
 ### If you use vendor_db functionality of providing multiple certificates and/or hashes please briefly describe your certificate setup.
@@ -186,8 +206,8 @@ This is our first shim submission.
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
 ```
-390a849f60b61591e72e44cc26a0f8194c78e2dc8e094d1da7fe1f4f49991446  shimia32.efi
-367196b6c335fb25e0312cf8717875decf3460436475a15741b7e46364eb6ac6  shimx64.efi
+2e7522c7c251f0d80cbddcad9f2ec73ee94cfe672efe986152bf59ca67e7cc19  shimx64.efi
+6200d688b270fbdfc29fe86775ed50c8614e23430aec495f20c7de75adf22e6c  shimia32.efi
 ```
 
 *******************************************************************************
@@ -201,9 +221,12 @@ Our private key is stored on FIPS 140-2 Level 2 HSM that can be only accessible 
 No.
 
 *******************************************************************************
-### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( grub2, fwupd, fwupdate, shim + all child shim binaries )?
+### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( GRUB2, fwupd, fwupdate, shim + all child shim binaries )?
 ### Please provide exact SBAT entries for all SBAT binaries you are booting or planning to boot directly through shim.
 ### Where your code is only slightly modified from an upstream vendor's, please also preserve their SBAT entries to simplify revocation.
+If you are using a downstream implementation of GRUB2 (e.g. from Fedora or Debian), please
+preserve the SBAT entry from those distributions and only append your own.
+More information on how SBAT works can be found [here](https://github.com/rhboot/shim/blob/main/SBAT.md).
 *******************************************************************************
 Yes.
 
@@ -211,26 +234,28 @@ shim
 ```
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md  
 shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim  
-shim.navix,1,Navix,shim,15.7,dl_le@navercorp.com  
+shim.navix,1,Navix,shim,15.8,dl_le@navercorp.com  
 ```
 
 grub2
 ```
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md  
 grub,3,Free Software Foundation,grub,2.02,https//www.gnu.org/software/grub/  
-grub.rh,2,Red Hat,grub2,2.02-148.el8,mailto:secalert@redhat.com  
-grub.navix,1,Navix,grub2,2.02-148.el8,mailto:dl_le@navercorp.com  
+grub.rh,2,Red Hat,grub2,2.02-150.el8,mailto:secalert@redhat.com  
+grub.navix,1,Navix,grub2,2.02-150.el8,mailto:dl_le@navercorp.com  
 ```
 
 fwupd
 ```
 sbat,1,UEFI shim,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 fwupd-efi,1,Firmware update daemon,fwupd-efi,1.3,https://github.com/fwupd/fwupd-efi
+fwupd-efi.rhel,1,Red Hat Enterprise Linux,fwupd,1.7.8,mail:secalert@redhat.com
 fwupd-efi.navix,1,Navix,fwupd,1.7.8,dl_le@navercorp.com
 ```
 
+
 *******************************************************************************
-### Which modules are built into your signed grub image?
+### Which modules are built into your signed GRUB2 image?
 *******************************************************************************
 ```
 all_video boot blscfg
@@ -247,9 +272,9 @@ serial sleep syslinuxcfg test tftp video xfs
 ```
 
 *******************************************************************************
-### What is the origin and full version number of your bootloader (GRUB or other)?
+### What is the origin and full version number of your bootloader (GRUB2 or other)?
 *******************************************************************************
-`grub2-2.02-148.el8` from RHEL
+`grub2-2.02-150.el8` from RHEL
 
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
@@ -269,7 +294,7 @@ grub2 bootloader also validates kernel through shim.
 fwupd only loads UEFI firmware updates.
 
 *******************************************************************************
-### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
+### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB2)?
 *******************************************************************************
 No.
 
@@ -282,4 +307,3 @@ We are using downstream kernel from RHEL and all our kernel has certificate and 
 ### Add any additional information you think we may need to validate this shim.
 *******************************************************************************
 N/A
-
