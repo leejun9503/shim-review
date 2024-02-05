@@ -33,7 +33,7 @@ Navix 8
 *******************************************************************************
 ### What's the justification that this really does need to be signed for the whole world to be able to boot it?
 *******************************************************************************
-Navix is a linux operating system base on RHEL and compatible with other RHEL-like Linux.  
+Navix is a linux operating system based on RHEL and compatible with other RHEL-like Linux.  
 We developed Navix to use on our environment, but we are going to release Navix public in 2024.  
 
 *******************************************************************************
@@ -71,8 +71,8 @@ like keyserver.ubuntu.com, and preferably have signatures that are reasonably
 well known in the Linux community.)
 
 *******************************************************************************
-### Were these binaries created from the 15.7 shim release tar?
-Please create your shim binaries starting with the 15.7 shim release tar file: https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
+### Were these binaries created from the 15.8 shim release tar?
+Please create your shim binaries starting with the 15.8 shim release tar file: https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
 
 This matches https://github.com/rhboot/shim/releases/tag/15.8 and contains the appropriate gnu-efi source.
 
@@ -159,13 +159,13 @@ Although our grub2 did not patch NTFS vulnerability described above, it is not a
 ### Is upstream commit [75b0cea7bf307f362057cc778efe89af4c615354 "ACPI: configfs: Disallow loading ACPI tables when locked down"](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=75b0cea7bf307f362057cc778efe89af4c615354) applied?
 ### Is upstream commit [eadb2f47a3ced5c64b23b90fd2a3463f63726066 "lockdown: also lock down previous kgdb use"](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eadb2f47a3ced5c64b23b90fd2a3463f63726066) applied?
 *******************************************************************************
-Redhat's kernel already disables kgdb/kdb so we do not need to apply "lockdown: also lock down previous kgdb use" patch.  
-Our kernel is based on RHEL and patches are identical until we release our custom kernel.
+Yes. All upstream commits are included on kernel.
 
 *******************************************************************************
 ### Do you build your signed kernel with additional local patches? What do they do?
 *******************************************************************************
-No. Kernel source is identical to RHEL.
+No.  
+We have plans to make our custom kernel, but for now our kernel is based on upstream without any additional patches. 
 
 *******************************************************************************
 ### Do you use an ephemeral key for signing kernel modules?
@@ -289,8 +289,8 @@ GRUB2 can't launch unauthenticated code because SHIM also validates the code lau
 *******************************************************************************
 ### How do the launched components prevent execution of unauthenticated code?
 *******************************************************************************
-SHIM validates all loaded component(grub,kernel..) using our CA certificates.
-grub2 bootloader also validates kernel through shim.
+SHIM validates all loaded component(grub,kernel..) using our CA certificates.  
+grub2 bootloader also validates kernel through shim.  
 fwupd only loads UEFI firmware updates.
 
 *******************************************************************************
@@ -301,7 +301,7 @@ No.
 *******************************************************************************
 ### What kernel are you using? Which patches does it includes to enforce Secure Boot?
 *******************************************************************************
-We are using downstream kernel from RHEL and all our kernel has certificate and suggested upstream commit applied.
+We are using kernel from RHEL and all our kernel has certificate and suggested upstream commit applied.
 
 *******************************************************************************
 ### Add any additional information you think we may need to validate this shim.
