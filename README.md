@@ -232,9 +232,9 @@ Yes.
 
 shim
 ```
-sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md  
-shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim  
-shim.navix,1,Navix,shim,15.8,dl_le@navercorp.com  
+sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+shim,4,UEFI shim,shim,1,https://github.com/rhboot/shim
+shim.navix,1,Navix,shim,15.8,dl_le@navercorp.com
 ```
 
 grub2
