@@ -11,8 +11,8 @@ This repo is for review of requests for signing shim.  To create a request for r
 - file an issue at https://github.com/rhboot/shim-review/issues with a link to your tag
 - approval is ready when the "accepted" label is added to your issue
 
-Note that we really only have experience with using GRUB2 on Linux, so asking
-us to endorse anything else for signing is going to require some convincing on
+Note that we really only have experience with using GRUB2 or systemd-boot on Linux, so
+asking us to endorse anything else for signing is going to require some convincing on
 your part.
 
 Check the docs directory in this repo for guidance on submission and
@@ -91,6 +91,13 @@ https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
 No patches were applied.
 
 *******************************************************************************
+### Do you have the NX bit set in your shim? If so, is your entire boot stack NX-compatible and what testing have you done to ensure such compatibility?
+
+See https://techcommunity.microsoft.com/t5/hardware-dev-center/nx-exception-for-shim-community/ba-p/3976522 for more details on the signing of shim without NX bit.
+*******************************************************************************
+We didn't set NX bit on our shim.  
+
+*******************************************************************************
 ### If shim is loading GRUB2 bootloader what exact implementation of Secureboot in GRUB2 do you have? (Either Upstream GRUB2 shim_lock verifier or Downstream RHEL/Fedora/Debian/Canonical-like implementation)
 *******************************************************************************
 RHEL-like implementation.
@@ -141,7 +148,7 @@ We did not patch the CVE-2023-4692/4693, but we have no plans to load `ntfs` mod
 Although `ntfs` module is compiled, Secure Boot environment prevents loading module except we described on **"Which modules are built into your signed grub image?"** section which are embedded on grub2 efi.  
 
 *******************************************************************************
-### If these fixes have been applied, is the upstream global SBAT generation in your GRUB2 binary set to 4?
+### If shim is loading GRUB2 bootloader, and if these fixes have been applied, is the upstream global SBAT generation in your GRUB2 binary set to 4?
 The entry should look similar to: `grub,4,Free Software Foundation,grub,GRUB_UPSTREAM_VERSION,https://www.gnu.org/software/grub/`
 *******************************************************************************
 No. Our current grub2's SBAT generation is 3.  
@@ -198,7 +205,8 @@ This should include logs for creating the buildroots, applying patches, doing th
 Please reference to `build.log`.
 
 *******************************************************************************
-### What changes were made since your SHIM was last signed?
+### What changes were made in the distor's secure boot chain since your SHIM was last signed?
+For example, signing new kernel's variants, UKI, systemd-boot, new certs, new CA, etc..
 *******************************************************************************
 This is our first shim submission.
 
@@ -221,12 +229,13 @@ Our private key is stored on FIPS 140-2 Level 2 HSM that can be only accessible 
 No.
 
 *******************************************************************************
-### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( GRUB2, fwupd, fwupdate, shim + all child shim binaries )?
-### Please provide exact SBAT entries for all SBAT binaries you are booting or planning to boot directly through shim.
+### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( GRUB2, fwupd, fwupdate, systemd-boot, systemd-stub, shim + all child shim binaries )?
+### Please provide exact SBAT entries for all shim binaries as well as all SBAT binaries that shim will directly boot.
 ### Where your code is only slightly modified from an upstream vendor's, please also preserve their SBAT entries to simplify revocation.
-If you are using a downstream implementation of GRUB2 (e.g. from Fedora or Debian), please
-preserve the SBAT entry from those distributions and only append your own.
-More information on how SBAT works can be found [here](https://github.com/rhboot/shim/blob/main/SBAT.md).
+If you are using a downstream implementation of GRUB2 or systemd-boot (e.g.
+from Fedora or Debian), please preserve the SBAT entry from those distributions
+and only append your own. More information on how SBAT works can be found
+[here](https://github.com/rhboot/shim/blob/main/SBAT.md).
 *******************************************************************************
 Yes.
 
@@ -255,7 +264,7 @@ fwupd-efi.navix,1,Navix,fwupd,1.7.8,dl_le@navercorp.com
 
 
 *******************************************************************************
-### Which modules are built into your signed GRUB2 image?
+### If shim is loading GRUB2 bootloader, which modules are built into your signed GRUB2 image?
 *******************************************************************************
 ```
 all_video boot blscfg
@@ -272,7 +281,12 @@ serial sleep syslinuxcfg test tftp video xfs
 ```
 
 *******************************************************************************
-### What is the origin and full version number of your bootloader (GRUB2 or other)?
+### If you are using systemd-boot on arm64 or riscv, is the fix for [unverified Devicetree Blob loading](https://github.com/systemd/systemd/security/advisories/GHSA-6m6p-rjcq-334c) included?
+*******************************************************************************
+We only support x86_64 architecture.
+
+*******************************************************************************
+### What is the origin and full version number of your bootloader (GRUB2 or systemd-boot or other)?
 *******************************************************************************
 `grub2-2.02-150.el8` from RHEL
 
@@ -282,7 +296,7 @@ serial sleep syslinuxcfg test tftp video xfs
 It also launches fwupd.
 
 *******************************************************************************
-### If your GRUB2 launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
+### If your GRUB2 or systemd-boot launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
 *******************************************************************************
 GRUB2 can't launch unauthenticated code because SHIM also validates the code launched from grub.
 
