@@ -279,15 +279,13 @@ kernel-uki-virt
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 systemd,1,The systemd Developers,systemd,252,https://systemd.io/
 systemd.navix,1,Navix,systemd,252-18.el9,https://bugs.navercorp.com/
-linux,1,Red Hat,linux,5.14.0-362.8.1.el9.x86_64,https://bugzilla.redhat.com/
-linux,1,OpenELA,linux,5.14.0-362.8.1.el9.x86_64,https://bugs.openela.org/
-linux,1,Navix,linux,5.14.0-362.8.1.el9.x86_64,dl_le@navercorp.com
-linux.centos,1,Red Hat,linux,5.14.0-362.8.1.el9.x86_64,https://bugzilla.redhat.com/
-linux.openela,1,OpenELA,linux,5.14.0-362.8.1.el9.x86_64,https://bugs.openela.org/
-linux.navix,1,Navix,linux,5.14.0-362.8.1.el9.x86_64,dl_le@navercorp.com
-kernel-uki-virt.centos,1,Red Hat,kernel-uki-virt,5.14.0-362.8.1.el9.x86_64,https://bugzilla.redhat.com/
-kernel-uki-virt.openela,1,OpenELA,kernel-uki-virt,5.14.0-362.8.1.el9.x86_64,https://bugs.openela.org/"
-kernel-uki-virt.navix,1,Navix,kernel-uki-virt,5.14.0-362.8.1.el9.x86_64,dl_le@navercorp.com
+linux,1,Red Hat,linux,5.14.0-362.8.1.el9_3.x86_64,https://bugzilla.redhat.com/
+linux.rhel,1,Red Hat,linux,5.14.0-362.8.1.el9_3.x86_64,https://bugzilla.redhat.com/
+linux.openela,1,OpenELA,linux,5.14.0-362.8.1.el9_3.x86_64,https://bugs.openela.org/
+linux.navix,1,Navix,linux,5.14.0-362.8.1.el9_3.x86_64,dl_le@navercorp.com
+kernel-uki-virt.rhel,1,Red Hat,kernel-uki-virt,5.14.0-362.8.1.el9_3.x86_64,https://bugzilla.redhat.com/
+kernel-uki-virt.openela,1,OpenELA,kernel-uki-virt,5.14.0-362.8.1.el9_3.x86_64,https://bugs.openela.org/
+kernel-uki-virt.navix,1,Navix,kernel-uki-virt,5.14.0-362.8.1.el9_3.x86_64,dl_le@navercorp.com
 ```
 
 shim
@@ -303,7 +301,7 @@ sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,3,Free Software Foundation,grub,2.06,https//www.gnu.org/software/grub/
 grub.rh,2,Red Hat,grub2,2.06-70.el9_3.1,mailto:secalert@redhat.com
 grub.openela,2,OpenELA,grub2,2.06-70.el9_3.1,mail:security@openela.org
-grub.navix,2,Navix,grub2,2.06-70.el9_3.1,mailto:dl_le@navercorp.com
+grub.navix,1,Navix,grub2,2.06-70.el9_3.1,mailto:dl_le@navercorp.com
 ```
 
 fwupd
